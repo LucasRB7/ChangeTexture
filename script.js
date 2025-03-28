@@ -21,9 +21,6 @@
         if (data.status === 200) {
             let url = data.data.url
             console.log('Imagem enviada com sucesso:', url);
-            var unityIframe = document.getElementById('unity-iframe');
-            var unityInstance;
-            unityInstance = unityIframe.contentWindow.unityInstance;
             sendTextureToUnity(url);
             return;
             
@@ -37,6 +34,9 @@
       }
 }
 function sendTextureToUnity(imageUrl) {
+    var unityIframe = document.getElementById('unity-iframe');
+    var unityInstance;
+    unityInstance = unityIframe.contentWindow.unityInstance;
     if (unityInstance) {
         // Envia a URL para o Unity usando SendMessage
         unityInstance.SendMessage('WebGl', 'ChangeTexture', imageUrl);
