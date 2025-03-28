@@ -1,4 +1,7 @@
-    async function send(){
+        var unityIframe = document.getElementById('unity-iframe');
+        var unityInstance;
+
+async function send(){
       let file = document.getElementById('file');
       let img = file.files[0];
       
@@ -33,16 +36,14 @@
 
       }
 }
+
 function sendTextureToUnity(imageUrl) {
-    var unityIframe = document.getElementById('unity-iframe');
-    var unityInstance;
-    unityInstance = unityIframe.contentWindow.unityInstance;
-    if (unityInstance) {
-        // Envia a URL para o Unity usando SendMessage
-        unityInstance.SendMessage('WebGl', 'ChangeTexture', imageUrl);
-        console.log("URL enviada para o Unity: " + imageUrl);
+    if (unityIframe.contentWindow) {
+        unityIframe.contentWindow.postMessage({
+            type: 'ChangeTexture',
+            url: imageUrl
+        }, '*'); // '*' pode ser substituído por um domínio específico, por segurança
     } else {
-        console.error("Unity WebGL não foi carregado corretamente no iframe.");
-        console.log(unityInstance)
+        console.error('Iframe não encontrado ou ainda não carregado.');
     }
 }
